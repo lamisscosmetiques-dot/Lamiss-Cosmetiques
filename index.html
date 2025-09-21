@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lamiss Cosmétiques</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        /* --- Styles de base et personnalisation --- */
+        :root {
+            --primary-color: #5C6F5A; /* Vert olive doux */
+            --secondary-color: #E0CCA6; /* Crème clair */
+            --text-color: #333; /* Noir Épuré */
+            --bg-color: #FBF7F2; /* Blanc Cassé Crème */
+            --light-grey: #F0F0F0; /* Gris très clair */
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Lato', sans-serif;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 0 1.5rem;
+        }
+        .section {
+            padding: 5rem 0;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .heading-primary {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 7vw, 5rem);
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+            line-height: 1.1;
+        }
+        .heading-secondary {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            color: var(--primary-color);
+            margin-bottom: 2.5rem;
+        }
+        .subheading {
+            font-style: italic;
+            color: var(--text-color);
+            font-size: 1.25rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.8;
+        }
+        /* --- Barre de navigation --- */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            padding: 1.2rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        .navbar-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .nav-links {
+            list-style: none;
+            display: flex;
+        }
+        .nav-links li {
+            margin-left: 2rem;
+        }
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+        /* --- En-tête (Hero) avec image de fond --- */
+        .hero {
+            position: relative;
+            height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: url('https://images.unsplash.com/photo-1600245892018-3826141b0822?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center/cover;
+            color: var(--text-color);
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            padding: 2rem;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 15px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 1rem 3rem;
+            margin-top: 1.5rem;
+            font-size: 1.1rem;
+            font-family: 'Lato', sans-serif;
+            font-weight: bold;
+            color: #fff;
+            background-color: var(--primary-color);
+            border: none;
+            border-radius: 30px;
+            text-decoration: none;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .btn:hover {
+            background-color: #4A5B49;
+            transform: translateY(-2px);
+        }
+        /* --- Section "À propos" avec flexbox --- */
+        .about-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4rem;
+            align-items: center;
+        }
+        .about-text, .about-image {
+            flex: 1 1 45%;
+        }
+        .about-text {
+            padding-right: 2rem;
+        }
+        .about-image {
+            height: 400px;
+        }
+        .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        /* --- Section "Produits" --- */
+        .products-section {
+            background-color: var(--light-grey);
+        }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* ajusté pour 4 produits */
+            gap: 2.5rem;
+        }
+        .product-card {
+            border-radius: 15px;
+            overflow: hidden;
+            background-color: #fff;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+        }
+        .product-card img {
+            width: 100%;
+            height: 220px; /* ajusté pour un meilleur rendu visuel */
+            object-fit: cover;
+            border-bottom: 1px solid var(--light-grey);
+        }
+        .product-info {
+            padding: 1.8rem;
+            text-align: center;
+            background-color: #fff;
+        }
+        .product-info h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem; /* ajusté pour les noms de produits plus longs */
+            margin-bottom: 0.6rem;
+            color: var(--primary-color);
+        }
+        .product-info p {
+            font-size: 0.95rem;
+            color: #666;
+        }
+        /* --- Pied de page --- */
+        .footer {
+            background-color: var(--primary-color);
+            color: #fff;
+            text-align: center;
+            padding: 3rem;
+        }
+        .footer a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 0.7rem;
+            transition: color 0.3s ease;
+        }
+        .footer a:hover {
+            color: var(--secondary-color);
+        }
+        /* Responsive */
+        @media (max-width: 768px) {
+            .about-grid {
+                flex-direction: column;
+            }
+            .about-text, .about-image {
+                flex: 1 1 100%;
+                padding-right: 0;
+            }
+            .nav-links {
+                display: none;
+            }
+            .nav-logo {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="container navbar-container">
+            <a href="#" class="nav-logo">Lamiss</a>
+            <ul class="nav-links">
+                <li><a href="#about">Notre Histoire</a></li>
+                <li><a href="#products">Créations</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h1 class="heading-primary">Lamiss Cosmétiques</h1>
+            <p class="subheading">L'essence de traditions ancestrales, pour une beauté authentique.</p>
+            <a href="#products" class="btn">Découvrir nos créations</a>
+        </div>
+    </header>
+
+    <section id="about" class="section">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-text">
+                    <h2 class="heading-secondary">Notre Histoire</h2>
+                    <p>
+                        Née d'une passion pour les secrets de beauté transmis de génération en génération, Lamiss Cosmétiques est une ode aux rituels de soin oubliés. Nous puisons notre inspiration dans des terres ensoleillées où la nature généreuse offre des trésors pour la peau. Chaque produit est une promesse d'authenticité et d'efficacité, un voyage sensoriel qui célèbre la beauté de chacun.
+                    </p>
+                    <a href="#contact" class="btn">Contactez-nous</a>
+                </div>
+                <div class="about-image">
+                    <img src="https://plus.unsplash.com/premium_photo-1661609454173-56055da4f2ad?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Produits cosmétiques naturels">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="products" class="section products-section">
+        <div class="container text-center">
+            <h2 class="heading-secondary">Nos Créations</h2>
+            <div class="product-grid">
+                <div class="product-card">
+                    <img src="https://res.cloudinary.com/dwzhdyckk/image/upload/v1758466427/Gemini_Generated_Image_hu3o2qhu3o2qhu3o_vdd0uc.png" alt="Carré de Musk Jamid">
+                    <div class="product-info">
+                        <h3>Musk Jamid</h3>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://res.cloudinary.com/dwzhdyckk/image/upload/v1758469624/Gemini_Generated_Image_2hg9yc2hg9yc2hg9_zwp6ie.png" alt="Carré de Musk Tahara">
+                    <div class="product-info">
+                        <h3>Musk Tahara</h3>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://res.cloudinary.com/dwzhdyckk/image/upload/v1758466418/Gemini_Generated_Image_hf05pwhf05pwhf05_i0eb1g.png" alt="Carré de Musk Anber">
+                    <div class="product-info">
+                        <h3>Musk Anber</h3>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://res.cloudinary.com/dwzhdyckk/image/upload/v1758469648/Gemini_Generated_Image_41j13k41j13k41j1_lpcnsm.png" alt="Carré de Musk Jasmin">
+                    <div class="product-info">
+                        <h3>Musk Jasmin</h3>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://res.cloudinary.com/dwzhdyckk/image/upload/v1758466429/Gemini_Generated_Image_k1r25k1r25k1r25k_wcg0cw.png" alt="Carré de Musk">
+                    <div class="product-info">
+                        <h3>Musk Musk</h3>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://res.cloudinary.com/dwzhdyckk/image/upload/v1758469671/Gemini_Generated_Image_h39ke4h39ke4h39k_bk0enx.png" alt="Carré de Musk Noir">
+                    <div class="product-info">
+                        <h3>Crème Lait de Chèvre</h3>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://res.cloudinary.com/dwzhdyckk/image/upload/v1758469627/Gemini_Generated_Image_5sucow5sucow5suc_qjak2i.png" alt="Crème Oliban Pot">
+                    <div class="product-info">
+                        <h3>Crème Oliban Pot</h3>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://res.cloudinary.com/dwzhdyckk/image/upload/v1758466433/Gemini_Generated_Image_t415f0t415f0t415_ywpocq.png" alt="His">
+                    <div class="product-info">
+                        <h3>Musk Noir</h3>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://res.cloudinary.com/dwzhdyckk/image/upload/v1758466446/Gemini_Generated_Image_ypbds9ypbds9ypbd_zqryy6.png" alt="Relax Mint">
+                    <div class="product-info">
+                        <h3>Relax Mint</h3>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://res.cloudinary.com/dwzhdyckk/image/upload/v1758466426/Gemini_Generated_Image_hnursmhnursmhnur_aawzyi.png" alt="Crème Oliban">
+                    <div class="product-info">
+                        <h3>Crème Oliban</h3>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://res.cloudinary.com/dwzhdyckk/image/upload/v1758469641/Gemini_Generated_Image_17ztfa17ztfa17zt_fjmc5j.png" alt="Tfal Ghassoul Petit">
+                    <div class="product-info">
+                        <h3>Tfal Ghassoul Petit</h3>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://res.cloudinary.com/dwzhdyckk/image/upload/v1758469660/Gemini_Generated_Image_ail1euail1euail1_lvrtpt.png" alt="Menthe Poivré">
+                    <div class="product-info">
+                        <h3>Flayou</h3>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://res.cloudinary.com/dwzhdyckk/image/upload/v1758469622/Gemini_Generated_Image_4sk1t44sk1t44sk1_go8snc.png" alt="Tfal Petit">
+                    <div class="product-info">
+                        <h3>Tfal Petit</h3>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://res.cloudinary.com/dwzhdyckk/image/upload/v1758469668/Gemini_Generated_Image_d01t4ld01t4ld01t_g335jm.png" alt="Barouk Escargot">
+                    <div class="product-info">
+                        <h3>Barouk Escargot</h3>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://res.cloudinary.com/dwzhdyckk/image/upload/v1758466424/Gemini_Generated_Image_ilh869ilh869ilh8_tluvrx.png" alt="Barouk Rose">
+                    <div class="product-info">
+                        <h3>Barouk Rose</h3>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://res.cloudinary.com/dwzhdyckk/image/upload/v1758469783/Gemini_Generated_Image_wncew1wncew1wnce_qyxfpy.png" alt="3itr Rose">
+                    <div class="product-info">
+                        <h3>3itr Rose</h3>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://res.cloudinary.com/dwzhdyckk/image/upload/v1758469659/Gemini_Generated_Image_agdo3wagdo3wagdo_muxl7c.png" alt="3itr Lavande">
+                    <div class="product-info">
+                        <h3>3itr Lavande</h3>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://res.cloudinary.com/dwzhdyckk/image/upload/v1758469733/Gemini_Generated_Image_r1gy42r1gy42r1gy_ibx4zy.png" alt="3itr Ambre">
+                    <div class="product-info">
+                        <h3>3itr Ambre</h3>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://res.cloudinary.com/dwzhdyckk/image/upload/v1758469645/Gemini_Generated_Image_9i31yd9i31yd9i31_romnmq.png" alt="3itr Jasmin">
+                    <div class="product-info">
+                        <h3>3itr Jasmin</h3>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://res.cloudinary.com/dwzhdyckk/image/upload/v1758475305/Gemini_Generated_Image_2h9uot2h9uot2h9u_oe310a.png" alt="Viks Rouge">
+                    <div class="product-info">
+                        <h3>Viks Rouge</h3>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://res.cloudinary.com/dwzhdyckk/image/upload/v1758469624/Gemini_Generated_Image_8mvhd08mvhd08mvh_hbi7uw.png" alt="Poudre Alun Rose">
+                    <div class="product-info">
+                        <h3>Poudre Alun Rose</h3>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://res.cloudinary.com/dwzhdyckk/image/upload/v1758466438/Gemini_Generated_Image_x2p6zx2p6zx2p6zx_hsd2iy.png" alt="Poudre Alun Vert">
+                    <div class="product-info">
+                        <h3>Poudre Alun Vert</h3>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://res.cloudinary.com/dwzhdyckk/image/upload/v1758466430/Gemini_Generated_Image_rop3g9rop3g9rop3_pkql07.png" alt="Poudre Alun Bleu">
+                    <div class="product-info">
+                        <h3>Poudre Alun Bleu</h3>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://res.cloudinary.com/dwzhdyckk/image/upload/v1758466438/Gemini_Generated_Image_xjnkv2xjnkv2xjnk_r5njfa.png" alt="Viks Vert">
+                    <div class="product-info">
+                        <h3>Viks Vert</h3>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://res.cloudinary.com/dwzhdyckk/image/upload/v1758466421/Gemini_Generated_Image_ibr89ibr89ibr89i_qs8t6p.png" alt="Poudre Alun Jaune">
+                    <div class="product-info">
+                        <h3>Poudre Alun Jaune</h3>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://res.cloudinary.com/dwzhdyckk/image/upload/v1758465629/Gemini_Generated_Image_8nc00q8nc00q8nc0_aqm0jz.jpg" alt="Moov Petit">
+                    <div class="product-info">
+                        <h3>Moov Petit</h3>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://res.cloudinary.com/dwzhdyckk/image/upload/v1758469694/Gemini_Generated_Image_ixgmf5ixgmf5ixgm_nmciga.png" alt="Tfal Grand">
+                    <div class="product-info">
+                        <h3>Tfal Grand</h3>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://res.cloudinary.com/dwzhdyckk/image/upload/v1758469671/Gemini_Generated_Image_dxj0n2dxj0n2dxj0_yldysh.png" alt="Moov Grand Pot">
+                    <div class="product-info">
+                        <h3>Moov Grand Pot</h3>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://res.cloudinary.com/dwzhdyckk/image/upload/v1758466425/Gemini_Generated_Image_jwiktjjwiktjjwik_o74dxi.png" alt="Moov Petit Pot">
+                    <div class="product-info">
+                        <h3>Moov Petit Pot</h3>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://res.cloudinary.com/dwzhdyckk/image/upload/v1758465628/Gemini_Generated_Image_9rfi2r9rfi2r9rfi_iy21tf.jpg" alt="Moov Grand">
+                    <div class="product-info">
+                        <h3>Moov Grand</h3>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://res.cloudinary.com/dwzhdyckk/image/upload/v1758466445/Gemini_Generated_Image_yihmp4yihmp4yihm_ahxdar.png" alt="Parfum Agadir">
+                    <div class="product-info">
+                        <h3>Parfum Agadir</h3>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://res.cloudinary.com/dwzhdyckk/image/upload/v1758466438/Gemini_Generated_Image_sclgkzsclgkzsclg_jcqtbd.png" alt="Crème Tahara Pot">
+                    <div class="product-info">
+                        <h3>Crème Tahara Pot</h3>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://res.cloudinary.com/dwzhdyckk/image/upload/v1758466445/Gemini_Generated_Image_z2waabz2waabz2wa_hb2nad.png" alt="Crème Tahara">
+                    <div class="product-info">
+                        <h3>Crème Tahara</h3>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://res.cloudinary.com/dwzhdyckk/image/upload/v1758473441/Gemini_Generated_Image_lrhbzolrhbzolrhb_hftxws.png" alt="Parfum Alechk">
+                    <div class="product-info">
+                        <h3>Parfum Alechk</h3>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://res.cloudinary.com/dwzhdyckk/image/upload/v1758469644/Gemini_Generated_Image_76zwfe76zwfe76zw_g3frpc.png" alt="Miska Vaseline">
+                    <div class="product-info">
+                        <h3>Miska Vaseline</h3>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://res.cloudinary.com/dwzhdyckk/image/upload/v1758466438/Gemini_Generated_Image_utv5abutv5abutv5_mgxdpj.png" alt="Relax Mint Pot">
+                    <div class="product-info">
+                        <h3>Relax Mint Pot</h3>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://res.cloudinary.com/dwzhdyckk/image/upload/v1758473340/Gemini_Generated_Image_1b0uvp1b0uvp1b0u_lszlia.png" alt="Parfum Musk">
+                    <div class="product-info">
+                        <h3>Parfum Tahara</h3>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://res.cloudinary.com/dwzhdyckk/image/upload/v1758466443/Gemini_Generated_Image_xo7m6exo7m6exo7m_gkocgd.png" alt="Crème Lait de Chèvre Pot">
+                    <div class="product-info">
+                        <h3>Crème Lait de Chèvre Pot</h3>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://res.cloudinary.com/dwzhdyckk/image/upload/v1758465629/Gemini_Generated_Image_9pq0wy9pq0wy9pq0_ystduo.jpg" alt="Gel Nettoyant Lait de Chèvre">
+                    <div class="product-info">
+                        <h3>Gel Nettoyant Lait de Chèvre</h3>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <img src="https://res.cloudinary.com/dwzhdyckk/image/upload/v1758466436/Gemini_Generated_Image_sd2b48sd2b48sd2b_no7i4c.png" alt="Gel Nettoyant Oliban">
+                    <div class="product-info">
+                        <h3>Gel Nettoyant Oliban</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section">
+        <div class="container text-center">
+            <h2 class="heading-secondary">Contactez-nous</h2>
+            <p style="margin-bottom: 0.5rem;">Pour toute question ou demande, n'hésitez pas à nous contacter.</p>
+            <p><strong>Téléphone :</strong> 20 168 190</p>
+            <p><strong>Email :</strong> <a href="mailto:lamisscosmetiques@gmail.com" style="color: var(--primary-color); text-decoration: none;">lamisscosmetiques@gmail.com</a></p>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2023 Lamiss Cosmétiques. Tous droits réservés.</p>
+        <div class="social-links">
+            <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+        </div>
+    </footer>
+
+</body>
+</html>
